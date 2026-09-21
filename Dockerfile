@@ -8,11 +8,9 @@ ARG ITOP_VERSION=3.3.0
 ARG ITOP_BUILD=21411
 ARG ITOP_SHA256=b4e52f8d5da53d990630a11dbda943de110cb9df6fea8228e382443975abc0e4
 
-RUN apt-get -o Acquire::Retries=5 update \
-    && apt-get -o Acquire::Retries=5 install -y --no-install-recommends \
-    apache2 apache2-utils libapache2-mod-php8.4 php8.4-cli php8.4-mysql \
-    php8.4-xml php8.4-gd php8.4-zip php8.4-curl php8.4-soap \
-    php8.4-mbstring php8.4-apcu php8.4-ldap graphviz unzip rsync \
+RUN rm -f /etc/apt/sources.list.d/ondrej-ubuntu-php-noble.sources \
+    && apt-get -o Acquire::Retries=5 update \
+    && apt-get -o Acquire::Retries=5 install -y --no-install-recommends graphviz \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app/code

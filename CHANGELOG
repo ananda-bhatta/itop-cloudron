@@ -1,6 +1,7 @@
 [0.2.2]
 * Restrict session cookies to HTTPS connections behind Cloudron's reverse proxy.
 * Add public release screenshots and container metadata for the community testing catalog.
+* Reuse Apache and PHP dependencies from the pinned Cloudron base image and isolate Graphviz installation from the optional PHP package mirror.
 
 [0.2.1]
 * Use the official iTop icon for the Cloudron dashboard and community package.
