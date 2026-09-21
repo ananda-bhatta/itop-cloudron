@@ -54,6 +54,7 @@ status() {
     docker exec "$app" curl -s -o /dev/null -w '%{http_code}' "http://localhost:8000$1"
 }
 run_app
+docker exec "$app" bash -c 'curl -fsS -D /tmp/login-headers http://localhost:8000/pages/UI.php > /tmp/login-page; grep -qi "auth_user" /tmp/login-page; grep -i "^set-cookie:.*itop-" /tmp/login-headers | grep -qi "; secure"'
 [[ $(status /setup/) == 401 ]]
 [[ $(status /conf/index.php) == 403 ]]
 [[ $(status /data/) == 403 ]]
