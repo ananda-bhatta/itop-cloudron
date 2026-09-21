@@ -1,3 +1,6 @@
+[0.2.3]
+* Publish the iTop icon as PNG so the Cloudron Community Apps image proxy serves it correctly.
+
 [0.2.2]
 * Restrict session cookies to HTTPS connections behind Cloudron's reverse proxy.
 * Add public release screenshots and container metadata for the community testing catalog.
