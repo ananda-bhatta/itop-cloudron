@@ -59,8 +59,8 @@ try {
             throw new RuntimeException('The database already contains tables but has no iTop configuration. Refusing to initialize or erase existing data.');
         }
         $credentials = [
-            'admin_user' => 'admin', 'admin_password' => bin2hex(random_bytes(24)),
-            'cron_user' => 'cloudron-cron', 'cron_password' => bin2hex(random_bytes(24)),
+            'admin_user' => 'admin', 'admin_password' => 'Aa1!' . bin2hex(random_bytes(24)),
+            'cron_user' => 'cloudron-cron', 'cron_password' => 'Aa1!' . bin2hex(random_bytes(24)),
         ];
         savePrivate($credentialsPath, json_encode($credentials, JSON_THROW_ON_ERROR));
         $xml = new DOMDocument();

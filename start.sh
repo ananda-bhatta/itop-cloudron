@@ -6,7 +6,9 @@ umask 0027
 : "${CLOUDRON_MYSQL_USERNAME:?}" "${CLOUDRON_MYSQL_PASSWORD:?}" "${CLOUDRON_APP_ORIGIN:?}"
 
 mkdir -p /app/data /run/apache2 /run/lock/apache2 /run/php/sessions
+chmod 755 /run/apache2 /run/lock /run/lock/apache2 /run/php
 chown www-data:www-data /run/php/sessions
+chmod 700 /run/php/sessions
 version=$(cat /app/code/upstream-version)
 
 if [[ ! -d /app/data/public ]]; then
