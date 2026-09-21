@@ -19,6 +19,8 @@ jobs:
           python3 -m json.tool CloudronManifest.json > /dev/null
           python3 -m json.tool CloudronVersions.json > /dev/null
           test "$(jq -r .upstreamVersion CloudronManifest.json)" = "$(sed -n 's/^ARG ITOP_VERSION=//p' Dockerfile)"
+          test "$(jq '.mediaLinks | length' CloudronManifest.json)" -gt 0
+          file assets/screenshots/*.png | grep -q '1440 x 480'
       - name: Build pinned upstream release
         run: docker build --tag itop-cloudron:ci .
       - name: PHP checks

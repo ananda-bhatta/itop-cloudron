@@ -2,7 +2,7 @@
 
 Independent, community-maintained packaging of [Combodo iTop](https://github.com/Combodo/iTop). Contributions and bug reports are welcome.
 
-**Status: experimental development package.** The upstream release is iTop Community **3.3.0 (build 21411)** with PHP 8.4. No community release is published yet. The version catalog is deliberately empty and marked unstable. Cloudron installation, completed setup, email delivery, backup/restore and migrations must be validated before a stable release.
+**Status: community testing release.** The upstream release is iTop Community **3.3.0 (build 21411)** with PHP 8.4. Fresh installation, login, email, background tasks, package updates, HTTPS session protection, and a Cloudron backup/restore of database records, document bytes, and persistent files have been validated. Upstream iTop version migrations and third-party extensions still require release-specific testing, so the catalog remains marked unstable.
 
 ## What is included
 
@@ -29,7 +29,13 @@ cloudron login my.example.com
 cloudron install
 ```
 
-Current Cloudron CLI can build on the server. Initialization runs automatically before Apache starts. Read `/app/data/initial-admin.txt` in Cloudron's File Manager, then log in as `admin` and change the initial password. See [POSTINSTALL.md](POSTINSTALL.md). Use a dedicated test domain while the package is experimental. **Do not use the empty catalog URL to install yet.**
+Install the testing release by adding this URL under **Community apps** in the Cloudron dashboard:
+
+```text
+https://raw.githubusercontent.com/ananda-bhatta/itop-cloudron/main/CloudronVersions.json
+```
+
+Initialization runs automatically before Apache starts. Read `/app/data/initial-admin.txt` in Cloudron's File Manager, then log in as `admin` and change the initial password. See [POSTINSTALL.md](POSTINSTALL.md). The dashboard displays an unstable-package warning while the catalog is in testing.
 
 MySQL is supported by iTop, but upstream recommends MariaDB for performance. This package chooses Cloudron's managed MySQL service so database lifecycle and backups remain integrated with Cloudron. Benchmark your expected CMDB workload before production use.
 

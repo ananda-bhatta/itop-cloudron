@@ -1,6 +1,6 @@
 # Community releases
 
-The source repository can be public before an installable release is ready. Do not add a fictitious image to the catalog. An empty `versions` object is intentional during development.
+The source repository and testing catalog are public. Every catalog entry must point to an immutable, publicly pullable image digest.
 
 ## Validate the candidate
 

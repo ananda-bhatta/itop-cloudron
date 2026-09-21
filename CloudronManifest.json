@@ -18,7 +18,11 @@
   "icon": "file://assets/icon.svg",
   "iconUrl": "https://raw.githubusercontent.com/ananda-bhatta/itop-cloudron/main/assets/icon.svg",
   "tags": ["itsm", "cmdb", "helpdesk", "inventory"],
-  "mediaLinks": [],
+  "mediaLinks": [
+    "https://raw.githubusercontent.com/ananda-bhatta/itop-cloudron/main/assets/screenshots/01-login.png",
+    "https://raw.githubusercontent.com/ananda-bhatta/itop-cloudron/main/assets/screenshots/02-dashboard.png",
+    "https://raw.githubusercontent.com/ananda-bhatta/itop-cloudron/main/assets/screenshots/03-navigation.png"
+  ],
   "changelog": "file://CHANGELOG",
   "postInstallMessage": "file://POSTINSTALL.md",
   "addons": {

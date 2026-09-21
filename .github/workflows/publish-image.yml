@@ -1,0 +1,25 @@
+name: Publish testing image
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Build and publish versioned image
+        shell: bash
+        run: |
+          set -euo pipefail
+          version=$(jq -r .version CloudronManifest.json)
+          image="ghcr.io/ananda-bhatta/itop-cloudron:${version}"
+          printf '%s' "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io --username "${{ github.actor }}" --password-stdin
+          docker build --pull --tag "$image" .
+          docker push "$image"
+          docker buildx imagetools inspect "$image"

@@ -1,5 +1,6 @@
 [0.2.2]
 * Restrict session cookies to HTTPS connections behind Cloudron's reverse proxy.
+* Add public release screenshots and container metadata for the community testing catalog.
 
 [0.2.1]
 * Use the official iTop icon for the Cloudron dashboard and community package.

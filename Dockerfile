@@ -1,5 +1,9 @@
 FROM cloudron/php-base:8.4@sha256:365607342e6b50f4f53d9b524313df4bfe654596baf762ee2e5af58c3498aa4b
 
+LABEL org.opencontainers.image.source="https://github.com/ananda-bhatta/itop-cloudron" \
+      org.opencontainers.image.description="Community-maintained iTop package for Cloudron" \
+      org.opencontainers.image.licenses="AGPL-3.0-or-later"
+
 ARG ITOP_VERSION=3.3.0
 ARG ITOP_BUILD=21411
 ARG ITOP_SHA256=b4e52f8d5da53d990630a11dbda943de110cb9df6fea8228e382443975abc0e4
