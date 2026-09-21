@@ -50,6 +50,56 @@
             "creationDate": "Mon, 21 Sep 2026 12:29:45 GMT",
             "ts": "Mon, 21 Sep 2026 12:29:45 GMT",
             "publishState": "testing"
+        },
+        "0.2.3": {
+            "manifest": {
+                "id": "io.github.ananda-bhatta.itop",
+                "title": "iTop Community",
+                "tagline": "IT service management and configuration database",
+                "description": "iTop Community provides IT service management, a configuration management database (CMDB), incident management and change management.\n\nThis independent community package includes iTop 3.3.0, PHP 8.4, Graphviz, Cloudron MySQL and outgoing SMTP integration. New installations are set up automatically with standard modules, no demo data, a unique initial administrator password and a separate background task account.\n\n**Testing release:** Fresh installation, email, scheduled tasks, package updates and Cloudron backup/restore have been validated. Upstream iTop version migrations are not implemented yet, and third-party extensions require separate testing. Cloudron therefore marks this community release as unstable.\n\nMaintained independently of Combodo and Cloudron. iTop is licensed under AGPL-3.0-or-later.\n",
+                "version": "0.2.3",
+                "upstreamVersion": "3.3.0",
+                "manifestVersion": 2,
+                "minBoxVersion": "10.0.0",
+                "httpPort": 8000,
+                "healthCheckPath": "/cloudron-health",
+                "memoryLimit": 2147483648,
+                "website": "https://www.combodo.com/itop",
+                "packageUrl": "https://github.com/ananda-bhatta/itop-cloudron",
+                "packagerName": "ananda-bhatta",
+                "packagerUrl": "https://github.com/ananda-bhatta",
+                "documentationUrl": "https://github.com/ananda-bhatta/itop-cloudron#readme",
+                "icon": "file://assets/icon.png",
+                "iconUrl": "https://raw.githubusercontent.com/ananda-bhatta/itop-cloudron/main/assets/icon.png",
+                "tags": [
+                    "itsm",
+                    "cmdb",
+                    "helpdesk",
+                    "inventory"
+                ],
+                "mediaLinks": [
+                    "https://raw.githubusercontent.com/ananda-bhatta/itop-cloudron/main/assets/screenshots/01-login.png",
+                    "https://raw.githubusercontent.com/ananda-bhatta/itop-cloudron/main/assets/screenshots/02-dashboard.png",
+                    "https://raw.githubusercontent.com/ananda-bhatta/itop-cloudron/main/assets/screenshots/03-navigation.png"
+                ],
+                "changelog": "* Publish the iTop icon as PNG so the Cloudron Community Apps image proxy serves it correctly.\n",
+                "postInstallMessage": "iTop is initialized automatically with its standard module selection and no demo data.\n\n1. Open `/app/data/initial-admin.txt` in Cloudron's File Manager.\n2. Open the app normally and log in as `admin` using the generated password in that file. iTop asks you to change it at first login.\n3. Edit the default organization and administrator contact to match your organization, then begin adding your CMDB records.\n\nDatabase, public URL and SMTP connection settings are managed by the package. A separate `cloudron-cron` administrator account is created for background tasks; cron is already configured. Keep that account enabled. Send email notifications with the sender address assigned in Cloudron's Email settings and test delivery.\n\nThe protected `/setup/` wizard is for later extension maintenance. Its separate HTTP login is in `/app/data/initial-setup.txt`; it is not the normal iTop login.\n\nExisting manually completed installations are preserved and keep their existing accounts and cron configuration. If initialization fails, inspect `/app/data/bootstrap.log`; the package will not erase a nonempty database or automatically repeat interrupted schema creation.\n",
+                "addons": {
+                    "localstorage": {},
+                    "mysql": {},
+                    "sendmail": {},
+                    "scheduler": {
+                        "itop": {
+                            "schedule": "* * * * *",
+                            "command": "/app/code/cron.sh"
+                        }
+                    }
+                },
+                "dockerImage": "ghcr.io/ananda-bhatta/itop-cloudron@sha256:0bc40e17f091f85909b52713fe062e5176853e75073e831f34c6ccc08dc22db2"
+            },
+            "creationDate": "Mon, 21 Sep 2026 13:08:57 GMT",
+            "ts": "Mon, 21 Sep 2026 13:08:57 GMT",
+            "publishState": "testing"
         }
     }
 }
