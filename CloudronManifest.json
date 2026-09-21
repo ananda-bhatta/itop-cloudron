@@ -1,0 +1,34 @@
+{
+  "id": "io.github.ananda-bhatta.itop",
+  "title": "iTop Community",
+  "tagline": "IT service management and configuration database",
+  "description": "file://DESCRIPTION.md",
+  "version": "0.1.0",
+  "upstreamVersion": "3.3.0",
+  "manifestVersion": 2,
+  "minBoxVersion": "10.0.0",
+  "httpPort": 8000,
+  "healthCheckPath": "/cloudron-health",
+  "memoryLimit": 2147483648,
+  "website": "https://www.combodo.com/itop",
+  "packageUrl": "https://github.com/ananda-bhatta/itop-cloudron",
+  "packagerName": "ananda-bhatta",
+  "packagerUrl": "https://github.com/ananda-bhatta",
+  "documentationUrl": "https://github.com/ananda-bhatta/itop-cloudron#readme",
+  "iconUrl": "https://raw.githubusercontent.com/ananda-bhatta/itop-cloudron/main/assets/icon.svg",
+  "tags": ["itsm", "cmdb", "helpdesk", "inventory"],
+  "mediaLinks": [],
+  "changelog": "file://CHANGELOG",
+  "postInstallMessage": "file://POSTINSTALL.md",
+  "addons": {
+    "localstorage": {},
+    "mysql": {},
+    "sendmail": {},
+    "scheduler": {
+      "itop": {
+        "schedule": "* * * * *",
+        "command": "/app/code/cron.sh"
+      }
+    }
+  }
+}

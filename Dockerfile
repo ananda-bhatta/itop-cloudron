@@ -1,0 +1,38 @@
+FROM cloudron/php-base:8.4@sha256:365607342e6b50f4f53d9b524313df4bfe654596baf762ee2e5af58c3498aa4b
+
+ARG ITOP_VERSION=3.3.0
+ARG ITOP_BUILD=21411
+ARG ITOP_SHA256=b4e52f8d5da53d990630a11dbda943de110cb9df6fea8228e382443975abc0e4
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    apache2 apache2-utils libapache2-mod-php8.4 php8.4-cli php8.4-mysql \
+    php8.4-xml php8.4-gd php8.4-zip php8.4-curl php8.4-soap \
+    php8.4-mbstring php8.4-apcu php8.4-ldap graphviz unzip rsync \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app/code
+RUN curl -fL --retry 3 "https://github.com/Combodo/iTop/releases/download/${ITOP_VERSION}/iTop-${ITOP_VERSION}-${ITOP_BUILD}.zip" -o /tmp/itop.zip \
+    && echo "${ITOP_SHA256}  /tmp/itop.zip" | sha256sum -c - \
+    && unzip -q /tmp/itop.zip -d /tmp/itop-release \
+    && mv /tmp/itop-release/web /app/code/upstream \
+    && cp /tmp/itop-release/LICENSE /app/code/ITOP-LICENSE \
+    && printf '%s\n' "${ITOP_VERSION}" > /app/code/upstream-version \
+    && rm -rf /tmp/itop.zip /tmp/itop-release
+
+COPY scripts/patch-itop.php /app/code/patch-itop.php
+COPY cloudron-settings.php health.php /app/code/
+RUN php8.4 /app/code/patch-itop.php /app/code/upstream/core/config.class.inc.php
+
+RUN a2dissite 000-default && a2dismod mpm_event
+RUN a2enmod mpm_prefork php8.4 rewrite headers auth_basic authn_file \
+    && printf 'Listen 8000\n' > /etc/apache2/ports.conf \
+    && printf 'ServerName localhost\n' > /etc/apache2/conf-available/cloudron.conf \
+    && a2enconf cloudron
+COPY apache.conf /etc/apache2/sites-available/itop.conf
+COPY php.ini /etc/php/8.4/apache2/conf.d/99-itop.ini
+COPY php.ini /etc/php/8.4/cli/conf.d/99-itop.ini
+RUN a2ensite itop
+COPY start.sh cron.sh /app/code/
+RUN chmod 755 /app/code/start.sh /app/code/cron.sh
+EXPOSE 8000
+CMD ["/app/code/start.sh"]

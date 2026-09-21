@@ -1,0 +1,7 @@
+.research/
+.env
+.env.*
+node_modules/
+.cloudron*
+*.log
+*.zip

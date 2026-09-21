@@ -1,0 +1,5 @@
+[0.1.0]
+* Initial experimental package for iTop Community 3.3.0.
+* Add persistent application data, Cloudron database and SMTP configuration, and scheduled background tasks.
+* Protect the installation wizard with a unique per-installation password.
+* Add container smoke checks and community release documentation.

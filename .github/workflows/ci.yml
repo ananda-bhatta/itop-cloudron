@@ -1,0 +1,28 @@
+name: Package checks
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  package:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Check shell syntax
+        run: for script in start.sh cron.sh tests/smoke.sh; do bash -n "$script"; done
+      - name: Check metadata
+        run: |
+          python3 -m json.tool CloudronManifest.json > /dev/null
+          python3 -m json.tool CloudronVersions.json > /dev/null
+          test "$(jq -r .upstreamVersion CloudronManifest.json)" = "$(sed -n 's/^ARG ITOP_VERSION=//p' Dockerfile)"
+      - name: Build pinned upstream release
+        run: docker build --tag itop-cloudron:ci .
+      - name: PHP checks
+        run: |
+          docker run --rm --entrypoint bash -v "$PWD:/tests:ro" itop-cloudron:ci -c 'find /tests -name "*.php" -not -path "*/.git/*" -print0 | xargs -0 -n1 php8.4 -l; php8.4 /tests/tests/settings.php; php8.4 -l /app/code/upstream/core/config.class.inc.php'
+      - name: Exercise container lifecycle
+        run: bash tests/smoke.sh itop-cloudron:ci

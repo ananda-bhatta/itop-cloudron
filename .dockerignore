@@ -1,0 +1,10 @@
+*
+!Dockerfile
+!start.sh
+!cron.sh
+!apache.conf
+!php.ini
+!cloudron-settings.php
+!health.php
+!scripts/
+!scripts/patch-itop.php
