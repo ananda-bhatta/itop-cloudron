@@ -1,3 +1,6 @@
+[0.2.1]
+* Use the official iTop icon for the Cloudron dashboard and community package.
+
 [0.2.0]
 * Initialize new instances automatically using iTop's unattended installer and standard modules, without demo data.
 * Generate a unique initial administrator password and a separate background task account.

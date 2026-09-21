@@ -80,7 +80,7 @@ Follow [docs/RELEASING.md](docs/RELEASING.md). Releases require a publicly pulla
 
 Package scripts and changes are licensed under **AGPL-3.0-or-later**, as is iTop. See [LICENSE](LICENSE). Upstream copyright notices are retained. The Docker build downloads the exact official release archive and includes its license. The package's small configuration-loader change is fully available in this repository. Third-party components retain their own licenses.
 
-The package icon is a simple text identifier, not an official Combodo or Cloudron logo. This project is not endorsed by either company.
+The package icon is the upstream iTop logo; see [asset attribution](assets/README.md). This independent packaging project is not endorsed by Combodo or Cloudron.
 
 ## References
 
