@@ -29,6 +29,7 @@ done
 run_app() {
     docker run -d --name "$app" --network "$network" --read-only \
         --tmpfs /run --tmpfs /tmp --mount "source=$volume,target=/app/data" \
+        --mount "type=bind,source=$PWD/tests,target=/tests,readonly" \
         -e CLOUDRON_MYSQL_HOST=mysql -e CLOUDRON_MYSQL_PORT=3306 \
         -e CLOUDRON_MYSQL_DATABASE=itop -e CLOUDRON_MYSQL_USERNAME=itop \
         -e CLOUDRON_MYSQL_PASSWORD=test-only -e CLOUDRON_APP_ORIGIN=https://itop.example.com \
@@ -66,15 +67,13 @@ docker exec "$app" grep -qx complete /app/data/.bootstrap-state
 docker exec "$app" test ! -f /app/data/.bootstrap-credentials.json
 docker exec "$app" test ! -f /run/itop-bootstrap/response.xml
 docker exec "$app" gosu www-data:www-data php8.4 /app/data/public/webservices/cron.php --param_file=/app/data/cron.params --status_only=1
-docker cp tests/bootstrap.php "$app:/tmp/bootstrap-test.php"
-docker exec "$app" bash -c 'cat /app/data/initial-admin.txt | gosu www-data:www-data php8.4 /tmp/bootstrap-test.php change'
+docker exec "$app" bash -c 'cat /app/data/initial-admin.txt | gosu www-data:www-data php8.4 /tests/bootstrap.php change'
 docker exec --user www-data "$app" bash -c 'echo persisted > /app/data/public/data/test-marker; mkdir -p /app/data/public/env-production-build; mv /app/data/public/env-production-build /app/data/public/env-test'
 docker rm -f "$app" >/dev/null
 run_app
 docker exec "$app" grep -qx persisted /app/data/public/data/test-marker
 docker exec "$app" test -d /app/data/public/env-test
-docker cp tests/bootstrap.php "$app:/tmp/bootstrap-test.php"
-docker exec "$app" gosu www-data:www-data php8.4 /tmp/bootstrap-test.php verify
+docker exec "$app" gosu www-data:www-data php8.4 /tests/bootstrap.php verify
 docker stop "$database" >/dev/null
 [[ $(status /cloudron-health) == 503 ]]
 echo 'Automatic setup, admin login, cron authentication, directory protection and restart persistence checks passed.'
