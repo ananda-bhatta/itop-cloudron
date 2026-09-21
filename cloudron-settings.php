@@ -13,6 +13,8 @@ $settings = [
     'db_user' => $required('CLOUDRON_MYSQL_USERNAME'),
     'db_pwd' => $required('CLOUDRON_MYSQL_PASSWORD'),
     'app_root_url' => rtrim($required('CLOUDRON_APP_ORIGIN'), '/') . '/',
+    'behind_reverse_proxy' => getenv('CLOUDRON_PROXY_IP') !== false
+        && ($_SERVER['REMOTE_ADDR'] ?? '') === getenv('CLOUDRON_PROXY_IP'),
     'graphviz_path' => '/usr/bin/dot',
 ];
 if (getenv('CLOUDRON_MAIL_SMTP_SERVER')) {

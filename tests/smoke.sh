@@ -51,7 +51,7 @@ run_app
 [[ $(status /data/) == 403 ]]
 [[ $(status /initial-setup.txt) == 404 ]]
 # Authenticate without printing or passing the setup password from the host.
-docker exec "$app" bash -c 'curl -fsS -u "setup:$(cat /app/data/setup-password)" http://localhost:8000/setup/ > /tmp/setup.html; grep -qi itop /tmp/setup.html'
+docker exec "$app" bash -c 'curl -fsS -u "setup:$(cat /app/data/setup-password)" http://localhost:8000/setup/wizard.php > /tmp/setup.html; grep -qi itop /tmp/setup.html'
 docker exec "$app" /app/code/cron.sh
 docker exec --user www-data "$app" bash -c 'echo persisted > /app/data/public/data/test-marker; mkdir -p /app/data/public/env-production-build; mv /app/data/public/env-production-build /app/data/public/env-test'
 docker rm -f "$app" >/dev/null

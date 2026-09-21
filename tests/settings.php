@@ -26,6 +26,13 @@ $restored = require $root . '/cloudron-settings.php';
 check($restored['db_pwd'] === 'rotated', 'Restores must use new database credentials.');
 check($restored['email_transport_smtp.password'] === 'mail-rotated', 'SMTP rotation failed.');
 check($restored['app_root_url'] === 'https://restored.example.com/', 'Restored URL is incorrect.');
+putenv('CLOUDRON_PROXY_IP=172.18.0.1');
+$_SERVER['REMOTE_ADDR'] = '172.18.0.1';
+$proxied = require $root . '/cloudron-settings.php';
+check($proxied['behind_reverse_proxy'] === true, 'Cloudron proxy must be trusted.');
+$_SERVER['REMOTE_ADDR'] = '172.18.0.99';
+$direct = require $root . '/cloudron-settings.php';
+check($direct['behind_reverse_proxy'] === false, 'Other clients must not supply trusted headers.');
 putenv('CLOUDRON_MYSQL_PASSWORD');
 try {
     require $root . '/cloudron-settings.php';
