@@ -20,7 +20,7 @@ RUN curl -fL --retry 3 "https://github.com/Combodo/iTop/releases/download/${ITOP
     && rm -rf /tmp/itop.zip /tmp/itop-release
 
 COPY scripts/patch-itop.php /app/code/patch-itop.php
-COPY cloudron-settings.php health.php /app/code/
+COPY cloudron-settings.php health.php bootstrap.php finish-bootstrap.php /app/code/
 RUN php8.4 /app/code/patch-itop.php /app/code/upstream/core/config.class.inc.php
 
 RUN a2dissite 000-default && a2dismod mpm_event

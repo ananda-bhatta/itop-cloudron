@@ -1,3 +1,9 @@
+[0.2.0]
+* Initialize new instances automatically using iTop's unattended installer and standard modules, without demo data.
+* Generate a unique initial administrator password and a separate background task account.
+* Preserve existing installations and refuse to initialize nonempty databases or retry interrupted schema creation.
+* Combine setup authentication with directory restrictions instead of overriding them.
+
 [0.1.0]
 * Initial experimental package for iTop Community 3.3.0.
 * Add persistent application data, Cloudron database and SMTP configuration, and scheduled background tasks.

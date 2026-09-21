@@ -40,15 +40,14 @@ htpasswd -iBc /app/data/setup.htpasswd setup < /app/data/setup-password > /dev/n
 {
     printf 'Setup URL: %s/setup/\nSetup HTTP username: setup\nSetup HTTP password: ' "$CLOUDRON_APP_ORIGIN"
     cat /app/data/setup-password
-    printf '\nDatabase server: %s:%s\nDatabase name: %s\nDatabase user: %s\nDatabase password: %s\n' \
-        "$CLOUDRON_MYSQL_HOST" "$CLOUDRON_MYSQL_PORT" "$CLOUDRON_MYSQL_DATABASE" \
-        "$CLOUDRON_MYSQL_USERNAME" "$CLOUDRON_MYSQL_PASSWORD"
-    printf '\nUse the existing database. Choose a separate iTop administrator password in the setup wizard.\n'
+    printf '\nThe setup wizard is for extension maintenance. New instances are initialized automatically.\n'
+    printf 'Initial iTop login details: /app/data/initial-admin.txt\n'
 } > /app/data/initial-setup.txt
 chmod 600 /app/data/setup-password /app/data/initial-setup.txt
 chown root:www-data /app/data/setup.htpasswd
 chmod 640 /app/data/setup.htpasswd
 chown -R www-data:www-data /app/data/public
+php8.4 /app/code/bootstrap.php
 if [[ -f /app/data/cron.params ]]; then
     chown root:www-data /app/data/cron.params
     chmod 640 /app/data/cron.params

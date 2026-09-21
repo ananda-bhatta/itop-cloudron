@@ -10,8 +10,10 @@ Independent, community-maintained packaging of [Combodo iTop](https://github.com
 - Apache, Graphviz, required PHP extensions and optional LDAP support in PHP.
 - Cloudron MySQL and outgoing SMTP configuration refreshed at runtime.
 - Persistent configuration, compiled environments, extensions and application data.
-- A unique password protecting the setup wizard, separate from iTop user accounts.
-- Cloudron scheduler integration for iTop background tasks.
+- Automatic first-run installation using iTop's standard module selection, English default language and no demo data.
+- A unique initial administrator password, with password change required on first login.
+- A separate background task account and preconfigured Cloudron scheduler.
+- A unique password protecting the maintenance setup wizard, preserving iTop's directory restrictions.
 - CI container build and smoke checks; no automatic publishing from CI.
 
 Cloudron SSO and incoming mail collection are not configured. Users initially authenticate with iTop accounts. PHP LDAP support alone does not configure LDAP authentication.
@@ -27,7 +29,7 @@ cloudron login my.example.com
 cloudron install
 ```
 
-Current Cloudron CLI can build on the server. Follow [POSTINSTALL.md](POSTINSTALL.md) to finish setup and enable cron. Use a dedicated test domain while the package is experimental. **Do not use the empty catalog URL to install yet.**
+Current Cloudron CLI can build on the server. Initialization runs automatically before Apache starts. Read `/app/data/initial-admin.txt` in Cloudron's File Manager, then log in as `admin` and change the initial password. See [POSTINSTALL.md](POSTINSTALL.md). Use a dedicated test domain while the package is experimental. **Do not use the empty catalog URL to install yet.**
 
 MySQL is supported by iTop, but upstream recommends MariaDB for performance. This package chooses Cloudron's managed MySQL service so database lifecycle and backups remain integrated with Cloudron. Benchmark your expected CMDB workload before production use.
 
@@ -38,16 +40,20 @@ MySQL is supported by iTop, but upstream recommends MariaDB for performance. Thi
 | `/app/data/public` | iTop installation, including compiled environments |
 | `/app/data/public/conf/production/config-itop.php` | iTop settings created by setup |
 | `/app/data/public/extensions` | User-installed extensions |
-| `/app/data/initial-setup.txt` | Setup credentials and current database details; outside the web root |
+| `/app/data/initial-admin.txt` | Generated initial iTop login; outside the web root, readable by Cloudron administrators |
+| `/app/data/initial-setup.txt` | Separate HTTP credentials for setup/extension maintenance |
 | `/app/data/setup-password` | Setup HTTP password, generated once |
-| `/app/data/cron.params` | Dedicated cron account credentials; outside the web root |
+| `/app/data/cron.params` | Automatically generated cron account credentials; outside the web root |
+| `/app/data/bootstrap.log` | Private unattended installation diagnostics |
 | `/run/php/sessions` | Temporary PHP sessions |
 
 iTop renames its generated `env-*` directories during compilation. The working tree therefore lives in `/app/data/public`, rather than using symlinks for those directories. On restart, package code is synchronized from the image while configuration, data, logs, extensions and generated environments are retained. **Edits to other upstream files are replaced on restart.** Put customizations in extensions.
 
 The source patch in [scripts/patch-itop.php](scripts/patch-itop.php) adds one managed configuration override after iTop evaluates its settings. [cloudron-settings.php](cloudron-settings.php) reads database, SMTP and public URL values from Cloudron's environment each time. This avoids stale passwords after addon reprovisioning or restoration. The patch build fails if the upstream insertion point changes.
 
-The health route verifies PHP and a database connection. It does not certify completion of the iTop wizard or successful cron processing.
+New instances are initialized using the upstream unattended installer. Generated response files are temporary; passwords are never passed as command-line arguments. Existing configurations are preserved. If a database already contains tables without a configuration, initialization stops. Interrupted schema installation is not retried automatically; investigate the private bootstrap log and restore the pre-install backup. Existing manually configured instances keep their accounts and cron settings.
+
+The health route verifies PHP and a database connection. Apache starts only after a fresh automatic installation completes. Health checks do not certify subsequent cron or email delivery.
 
 ## Updates and backups
 
@@ -64,7 +70,7 @@ docker build -t itop-cloudron:test .
 bash tests/smoke.sh itop-cloudron:test
 ```
 
-The smoke check starts an isolated MySQL container, runs the app with a read-only root filesystem, checks the protected setup page and database health, recreates the app with the same data volume, then verifies persisted data. Its test containers and volume are removed on exit. It does not complete the iTop setup wizard or simulate Cloudron's backup implementation.
+The smoke check starts an isolated MySQL container and completes unattended iTop installation with a read-only container filesystem. It verifies initial administrator and cron authentication, checks directory restrictions even for an authenticated setup user, changes the administrator password, creates a record, recreates the app and verifies both persist. It does not simulate Cloudron's backup implementation.
 
 ## Publish a community release
 

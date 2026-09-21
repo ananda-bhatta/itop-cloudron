@@ -6,10 +6,10 @@ The source repository can be public before an installable release is ready. Do n
 
 Record the Cloudron version, image digest and package commit used for each check:
 
-- Complete a fresh web installation using the existing Cloudron database.
+- Verify automatic first-run installation and login using the generated administrator password.
 - Create a CMDB object and attachment, restart, and verify both remain available.
 - Verify Graphviz impact analysis, extension installation and the customer portal.
-- Configure a dedicated cron administrator; verify SLA/background task execution.
+- Verify the generated background task account and SLA/background task execution.
 - Test actual outgoing email using the Cloudron-assigned sender.
 - Back up and restore to another Cloudron app/domain; verify database credentials and links, accounts, data, attachments and cron.
 - Test a package update on an installed instance. Before releasing a different upstream iTop version, implement and test database/compiled-model migration and rollback via Cloudron backup.

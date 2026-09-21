@@ -6,5 +6,7 @@
 !php.ini
 !cloudron-settings.php
 !health.php
+!bootstrap.php
+!finish-bootstrap.php
 !scripts/
 !scripts/patch-itop.php
