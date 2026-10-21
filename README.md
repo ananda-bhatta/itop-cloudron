@@ -2,7 +2,7 @@
 
 Independent, community-maintained packaging of [Combodo iTop](https://github.com/Combodo/iTop). Contributions and bug reports are welcome.
 
-**Status: community testing release.** The upstream release is iTop Community **3.3.0 (build 21411)** with PHP 8.4. Fresh installation, login, email, background tasks, package updates, HTTPS session protection, and a Cloudron backup/restore of database records, document bytes, and persistent files have been validated. Upstream iTop version migrations and third-party extensions still require release-specific testing, so the catalog remains marked unstable.
+**Status: community testing release.** The upstream release is iTop Community **3.3.0 (build 21411)** with PHP 8.4.27. Fresh installation, login, email, background tasks, package updates, HTTPS session protection, and a Cloudron backup/restore of database records, document bytes, and persistent files have been validated. Upstream iTop version migrations and third-party extensions still require release-specific testing, so the catalog remains marked unstable.
 
 ## What is included
 
