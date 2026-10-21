@@ -1,3 +1,6 @@
+[0.2.4]
+* Update the Cloudron PHP base image to PHP 8.4.27, which fixes the php2shell remote code execution vulnerabilities (CVE-2026-109618, CVE-2026-109619).
+
 [0.2.3]
 * Publish the iTop icon as PNG so the Cloudron Community Apps image proxy serves it correctly.
 

@@ -1,4 +1,4 @@
-FROM cloudron/php-base:8.4@sha256:365607342e6b50f4f53d9b524313df4bfe654596baf762ee2e5af58c3498aa4b
+FROM cloudron/php-base:8.4-20261021@sha256:476ced2a7fd301a9cdd5aa8e8604b069215fd9cc829fe1a157829741e61ffb76
 
 LABEL org.opencontainers.image.source="https://github.com/ananda-bhatta/itop-cloudron" \
       org.opencontainers.image.description="Community-maintained iTop package for Cloudron" \
